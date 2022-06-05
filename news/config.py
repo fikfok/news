@@ -1,5 +1,5 @@
 """
-Предоставляет класс Settings, который забирает из cnfg-файла настройки
+Предоставляет класс Settings, который забирает из .env-файла настройки
 """
 
 import functools
@@ -15,6 +15,11 @@ class Settings(pydantic.BaseSettings):
     db_host: str
     db_port: str
 
+    postgresql_pool_connections: int = 50
+    postgresql_max_overflow: int = 50
+    postgresql_pool_recycle: int = 180
+    postgresql_log: bool = True
+
     @property
     def postgresql_url_async(self) -> str:
         """Метод собирает строку для запроса к postgesql в асинхронном режиме."""
@@ -26,8 +31,8 @@ class Settings(pydantic.BaseSettings):
         return url
 
     class Config:
-        """Класс конфигурации для указания пути к 'cnfg'."""
-        env_file = '../cnfg'
+        """Класс конфигурации для указания пути к '.env'."""
+        env_file = '.env'
 
 
 @functools.lru_cache()

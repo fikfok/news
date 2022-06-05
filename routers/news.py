@@ -1,10 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter
 
 
-# router = APIRouter(prefix="/api/v1/news", tags=["Импорт новостей"])
-router = APIRouter(tags=["Импорт новостей"])
+router = APIRouter(prefix="/api/v1/news", tags=["Импорт новостей"])
 
 
 @router.get("/")
-def list_speedsters():
+def list_news():
     return {'status': 'ok'}

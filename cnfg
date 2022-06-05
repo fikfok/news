@@ -1,5 +1,0 @@
-db_username=news
-db_password=news
-db_database=news
-db_host=localhost
-db_port=5432

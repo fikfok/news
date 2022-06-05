@@ -6,7 +6,8 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import AsyncAdaptedQueuePool
-from adfox_int.config import settings
+
+from news.config import settings
 
 
 async_engine = create_async_engine(
@@ -28,7 +29,7 @@ Base: Any = declarative_base()
 
 
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
-    """Получение текущей сессии."""
+    """Получение текущей сессии"""
     async with async_session() as session:
         try:
             yield session
