@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:13.3-alpine
+    ports:
+      - "${DB_PORT}:5432"
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_DATABASE}
+    volumes:
+      - news_pgdata:/var/lib/postgresql/data/
+
+volumes:
+  news_pgdata:

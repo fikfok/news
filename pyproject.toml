@@ -1,0 +1,13 @@
+[tool.poetry]
+name = "news"
+version = "0.1.0"
+description = ""
+authors = ["me"]
+
+[tool.poetry.dependencies]
+python = "3.9.2"
+aiohttp = "3.8.0"
+fastapi = "0.70.0"
+requests = "2.26.0"
+uvicorn = "0.16.0"
+python-dotenv = "0.19.2"
