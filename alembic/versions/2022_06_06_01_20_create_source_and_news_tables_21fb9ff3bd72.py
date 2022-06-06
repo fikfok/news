@@ -8,7 +8,8 @@ Create Date: 2022-06-06 01:20:42.057648
 from datetime import datetime
 
 from alembic.op import create_table, drop_table
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKeyConstraint, PrimaryKeyConstraint
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKeyConstraint, PrimaryKeyConstraint, text, func, \
+    DefaultClause
 
 # revision identifiers, used by Alembic.
 revision = '21fb9ff3bd72'
