@@ -17,7 +17,8 @@ class Source(Base):
     news_url = Column(String, unique=True)
     interval_sec = Column(Integer)
     source_type = Column(ENUM(SourceTypeEnum, name='source_type'), nullable=False)
-    news = relationship('News', cascade='all,delete', back_populates='source')
+    news = relationship('News', cascade='all,delete') #, back_populates='source'
+    download_at = Column(DateTime(timezone=True), nullable=False)
     created_at = Column(DateTime(timezone=True), default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), default=func.now(), nullable=False)
 

@@ -5,7 +5,7 @@ Revises: 21fb9ff3bd72
 Create Date: 2022-06-06 17:20:58.360310
 
 """
-from alembic.op import add_column, drop_column, get_bind
+from alembic.op import add_column, get_bind
 from sqlalchemy import Column
 from sqlalchemy.dialects.postgresql import ENUM
 

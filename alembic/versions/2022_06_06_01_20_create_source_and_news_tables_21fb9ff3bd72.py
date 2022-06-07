@@ -5,11 +5,8 @@ Revises: 6c637ac557ed
 Create Date: 2022-06-06 01:20:42.057648
 
 """
-from datetime import datetime
-
 from alembic.op import create_table, drop_table
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKeyConstraint, PrimaryKeyConstraint, text, func, \
-    DefaultClause
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKeyConstraint, PrimaryKeyConstraint
 
 # revision identifiers, used by Alembic.
 revision = '21fb9ff3bd72'

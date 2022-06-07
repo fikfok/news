@@ -8,7 +8,7 @@ import pydantic
 
 
 class Settings(pydantic.BaseSettings):
-    """Класс для хранения(получения) настроек приложения."""
+    """Класс для хранения (получения) настроек приложения."""
     db_username: str
     db_password: str
     db_database: str
@@ -19,6 +19,9 @@ class Settings(pydantic.BaseSettings):
     postgresql_max_overflow: int = 50
     postgresql_pool_recycle: int = 180
     postgresql_log: bool = True
+
+    celery_broker_url: str
+    celery_result_backend: str
 
     @property
     def postgresql_url_async(self) -> str:

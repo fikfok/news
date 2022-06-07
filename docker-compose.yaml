@@ -1,5 +1,37 @@
-version: "3.9"
+version: '2.4'
+
+#x-base: &base
+#  restart: unless-stopped
+#  networks:
+#    - app-network
+
+x-app: &app
+#  <<: *base
+  env_file:
+    - ./.env
+  build:
+    context: .
+    dockerfile: Dockerfile
+    network: host
+
+  depends_on:
+    redis:
+      condition: service_started
+    db:
+      condition: service_started
+
 services:
+#  web:
+#    <<: *app
+#    command: uvicorn adfox_int.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
+#    ports:
+#      - 80:8000
+#
+#  celery:
+#    <<: *app
+#    working_dir: /code/src
+#    command: celery --app=news.celery_workers.celery worker --beat --loglevel=debug
+
   db:
     image: postgres:13.3-alpine
     ports:
@@ -11,5 +43,13 @@ services:
     volumes:
       - news_pgdata:/var/lib/postgresql/data/
 
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      - news_redis:/data
+
 volumes:
   news_pgdata:
+  news_redis:
