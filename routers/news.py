@@ -30,7 +30,7 @@ async def list_sources(http_query: HTTPQuerySchema = Depends()) -> dict:
 
 @router.get("/{source_id}/news", response_model=List[dict])
 async def list_sources(source_id: int, http_query: HTTPQuerySchema = Depends()) -> dict:
-    """Отображение списка источников новостей"""
+    """Отображение списка новостей"""
 
     parsed_news = []
     news_crud = NewsCRUD()
