@@ -1,8 +1,7 @@
-# Запуск
-
 ## 1. Склонировать репозиторий и перейти в папку проекта
 
 git clone https://github.com/fikfok/news.git
+
 
 cd news
 
