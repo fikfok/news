@@ -3,6 +3,7 @@
 ## 1. Склонировать репозиторий
 
 git clone https://github.com/fikfok/news.git
+cd news
 
 ## 2. Установить зависимости с помощью менеджера пакетов poetry
 
