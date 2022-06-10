@@ -8,6 +8,7 @@ from loguru import logger
 
 from crud.news import SourceCRUD
 from news.config import settings
+from utils.news_downloader import NewsDownloader
 
 celery = Celery(
     __name__,
@@ -33,11 +34,15 @@ GET_NEWS_TASK = 'news_task'
 
 @celery.task(name=GET_NEWS_TASK)
 def news_task() -> bool:
+    """Celery таска, которая запрашивает очередную порцию новостей из источников"""
     crud = SourceCRUD()
-    event_loop.run_until_complete(crud.select_sources_for_download())
     results, _ = event_loop.run_until_complete(asyncio.wait([crud.select_sources_for_download()]))
-    sources_for_download = list(results)[0].result()
-    logger.debug([(r.id, r.news_url) for r in sources_for_download])
+    sources = list(results)[0].result()
+
+    logger.debug(f'Sources count: {len(sources)}')
+
+    news_downloader = NewsDownloader(sources=sources)
+    event_loop.run_until_complete(news_downloader.process())
     return True
 
 
