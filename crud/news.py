@@ -10,7 +10,6 @@ from sqlalchemy.orm import declarative_base, joinedload
 import sqlalchemy.sql.expression as sorting
 from sqlalchemy.sql import Select
 from sqlalchemy.sql.functions import concat
-import xmltodict
 
 from models.news import Source, News
 from news.database import db_session
@@ -30,11 +29,7 @@ class BaseCRUD:
         self._session = session
 
     async def _execute_stmt(self, stmt):
-        """
-
-        :param stmt:
-        :return:
-        """
+        """Запустить ORM запрос"""
         if self._session:
             await self._session.execute(stmt)
         else:
@@ -54,16 +49,13 @@ class NewsCRUD(BaseCRUD):
         super().__init__(model=News, **kwargs)
 
     async def create(self, object_in: CreateSchemaType) -> None:
-        """
-        Вставка блока новостей
-
-        """
+        """Вставка блока новостей в БД"""
         entity_data = object_in.dict()
         stmt = insert(self._model).values(**entity_data)
         await self._execute_stmt(stmt=stmt)
 
-    async def select_news(self, source_id: int, http_query: HTTPQuerySchema):
-        """ """
+    async def select_news(self, source_id: int):
+        """Выбрать новости по конкретному источнику"""
         async with db_session() as session:
             stmt = (select(self._model).
                     options(joinedload(self._model.source)).
@@ -79,10 +71,7 @@ class SourceCRUD(BaseCRUD):
         super().__init__(model=Source, **kwargs)
 
     async def create(self, object_in: CreateSchemaType) -> dict:
-        """
-        Создание источника новостей
-
-        """
+        """Создание источника новостей"""
 
         async with db_session() as session:
             entity_data = object_in.dict()
@@ -105,12 +94,8 @@ class SourceCRUD(BaseCRUD):
             sources_for_download = result.fetchall()
         return [row[0] for row in sources_for_download]
 
-    async def calc_next_download_dt(self, source_id: int) -> None:
-        """
-
-        :param source_id:
-        :return:
-        """
+    async def update_next_download_dt(self, source_id: int) -> None:
+        """Указать следующую дату загрузки новостного блока"""
         stmt = (update(self._model).
                 where(self._model.id == source_id).
                 values(download_at=func.now() + func.cast(concat(self._model.interval_sec, ' seconds'), INTERVAL)))
@@ -126,4 +111,3 @@ class SourceCRUD(BaseCRUD):
             sources = result.fetchall()
         result = [row[0].__dict__ for row in sources]
         return result
-

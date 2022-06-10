@@ -1,3 +1,4 @@
+"""Парсер новостей"""
 from abc import ABCMeta, abstractmethod
 
 import xmltodict
@@ -28,19 +29,21 @@ class RSSParser(NewsParserAbstract):
         super().__init__(**kwargs)
 
     def parse(self):
+        """Распарсить блок новостей"""
+
         items = [n['rss']['channel']['item'] for n in self._raw_news]
 
-        # Формирование уникального множества статей
+        # 1. Формирование уникального множества статей
         uniq_articles = set()
         for articles in items:
             for article in articles:
                 uniq_articles.add(RSSArticleSchema(**article))
 
-        # Сортировка статей по дате выхода от новых к старым
+        # 2. Сортировка статей по дате выхода от новых к старым
         sorted_articles = sorted(uniq_articles, key=lambda art: art.pub_date, reverse=True)
         converted_articles = [art.dict() for art in sorted_articles]
 
-        # Пагинация
+        # 3. Пагинация
         from_slice = (self._http_query.page - 1) * self._http_query.page_size
         to_slice = from_slice + self._http_query.page_size
         sliced_articles = converted_articles[from_slice:to_slice]
@@ -54,6 +57,7 @@ class ParserFabric:
 
     def get_parser(self, source_type: str):
         """Выбрать нужный парсер"""
+
         parser_cls = None
         for parser_cls in NewsParserAbstract.__subclasses__():
             if parser_cls.source_type in source_type:

@@ -1,4 +1,4 @@
-"""Описание моделей для таблиц базы данных"""
+"""Модели БД"""
 from sqlalchemy import Column, DateTime, Integer, String, func, ForeignKey
 from sqlalchemy.dialects.postgresql import ENUM
 from sqlalchemy.orm import relationship

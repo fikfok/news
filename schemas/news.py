@@ -1,4 +1,4 @@
-"""Модуль содержит модель сайта"""
+"""Pydantic схемы"""
 from datetime import datetime
 from typing import Optional
 
@@ -41,6 +41,8 @@ class HTTPQuerySchema(BaseModel):
 
 
 class RSSArticleSchema(BaseModel):
+    """Схема RSS статьи"""
+
     author: Optional[str] = ''
     title: Optional[str] = ''
     link: Optional[str] = ''

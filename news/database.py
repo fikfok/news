@@ -1,4 +1,4 @@
-"""Настройка подключения к базе данных."""
+"""Настройка подключения к БД"""
 from contextlib import asynccontextmanager
 from typing import Any, AsyncGenerator
 
